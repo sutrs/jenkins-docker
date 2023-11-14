@@ -1,0 +1,83 @@
+# docker-compose.yaml
+version: '3.8'
+services:
+#  jenkins:
+#    user: root
+#    build:
+#      context: ./
+#      dockerfile: jenkins.dockerfile
+#    #image: jenkins/jenkins:lts
+#    container_name: jenkins
+#    hostname: jenkins-server
+#    privileged: true
+#    user: root
+#    ports:
+#      - 8080:8080
+#      - 50000:50000
+#    networks:
+#      - jenkins-network
+#    volumes:
+#      - ./volume_jenkins/jenkins_configuration:/var/jenkins_home
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    restart: always
+#  agent:
+#    image: jenkins/ssh-agent:jdk11
+#    privileged: true
+#    user: root
+#    container_name: agent
+#    expose:
+#      - 22
+#    networks:
+#      - jenkins-network
+#    environment:
+#      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDA7RIg/0P3qm450HbOyXOcWiceC/Dqpd6sLHnCZ2SnoSVPaqeH9zKfL/dU1BIi6eqyPvwVphlD7ZgeRmCGIDg1By1qwdqma0IPUFFGaosQxADH6S9GNzoopPBnaP0Ig1x64QMsifRwVL+gWIJFU7rfUrAS6+MHFPVqqBT4v7AcEAZuN2UesyqYyViL5DDg+N9pGycAQxek9dxYQIzB8ARJnW67/mRfoYRR8HdNAsLJj+02L5zbHAiRuR8tgqYkq76lEDBrPtPx0IYHsqU7+oC+E0HavQjyfDj3gkq6pQDQiHcjjWEl+RbKJJYG//riV2MpyTsCbm4zaz6Vajnb8j9aSNTuw/oZFVJTp10bwUg5uQMXf140NQgru8qngY1hTbixYRq9/o6bKYquJwMag7TA7MlzG81XJXfrHd+Nb8XPlHFdGjYTv9uc4FfVpF9zJdEmNJlZxbvnn8DjMVHKLC7yKwJHVQgK5vHQQq2svNC+ImZPr7DZyNoavDQSt18mHPU= root@78722edcec56
+  #jenkins-agent:
+  #  build:
+  #    context: ./
+  #    dockerfile: jenkins-ssh-agent.dockerfile
+  #  container_name: jenkins-agent
+  #  networks:
+  #    - jenkins-network
+  #  restart: always
+#  jenkins-agent-ubuntu:
+#    build:
+#      context: ./
+#      dockerfile: jenkins-ssh-agent-ubuntu.dockerfile
+#    container_name: jenkins-agent-ubuntu
+#    hostname: jenkins-agent-ubuntu
+#    expose:
+#      - 22
+#    volumes:
+#      - ./slave.jar:/home/jenkins
+#    networks:
+#      - jenkins-network
+#    restart: always
+  jenkins-agent-ubuntu-node-app:
+    build:
+      context: ./
+      dockerfile: jenkins-ssh-agent-ubuntu-node-app.dockerfile
+    container_name: jenkins-agent-ubuntu-node-app
+    hostname: jenkins-agent-ubuntu-node-app
+    #ports:
+      #- 8080:8080
+      #- 50000:50000
+#    expose:
+#      - 22
+#    volumes:
+#      - ./slave.jar:/home/jenkins/slave.jar
+    networks:
+      - jenkins-network
+#    environment:
+#      - JENKINS_URL=http://jenkins:8080
+#      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQp/SRJncjYc6jhqzkdu6Ky8J25TafTjC30ktfc8aBS0ILKpOD/B5vWrEbPmnTtkNtqwUzTTKHmiz+YEShaherPOxPsLAIK6i22KENcwQGxA1hDIKtm7oSHm1r2u2z4HkhsN09uRxeZnOjrI5sFHWenxolkUQ4S/3/QedjZaSk0EUwJaCqlUsXbVMvmAeqkzEcdwAVaw1vAe7uKx4PWfLo7zme909+kTbwARCLp+LqYVcwbeH6OBbistcTDq+3miioT6VCv1ClTJL615vzyQIEKuEyD4uv00aKOLs7wt+geXmiPFCE+VM9EJ2BK7lfLA9ahEAELKvef1FVbMFOEqC81q/GkYSDmMfGd+T2FGsnLtXKdY0yiAOXHYrB71ybKTXG1kU6FGOvLgmDGAZJpjT+Vv3YoshmGLOVfoklPVbXAHCncTlYT3ZC2aDzijo3Jt7W6kkcd7+cXw8RddB7ZD2UXdbIsn6dvXqE1vIvi6stABXLjZsYTnJ6di5aGzWbtbM= root@0d42c9b55b71
+    #depends_on:
+    #  - jenkins
+    restart: always
+
+volumes:
+  volume_jenkins: 
+networks:
+  jenkins-network:
+    name: jenkins-net
+    external: true
+#    driver: bridge

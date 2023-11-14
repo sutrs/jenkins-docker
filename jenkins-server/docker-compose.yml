@@ -1,0 +1,69 @@
+# docker-compose.yaml
+version: '3.8'
+services:
+  jenkins:
+    user: root
+    build:
+      context: ./
+      dockerfile: jenkins.dockerfile
+    #image: jenkins/jenkins:lts
+    container_name: jenkins
+    hostname: jenkins-server
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    networks:
+      - jenkins-network
+    volumes:
+      - ./volume_jenkins/jenkins_configuration:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+#agent:
+#  images: jenkins/ssh-agent:jdk11
+#  proviliged: true
+#  user: root
+#  container_name: agent
+#  expose:
+#    - 22
+#  environment:
+#    - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDrSF2XICucxX//hz0PVgDVv3EisY6C99u9sA1QoZSdHuXW/H5i/1BT3CtUzBAsCOJxdSuadKfJZnNDEL98lmagU79tAgNjVgCnUyoKEkaEOz4J416cUsF/hR/rKUeRimcox6BncwixYsfmmcZMo1ImKWqdYIDu6TJV0RjhdpZyfn1RTxV0VXP1cn5yLO4aGz8ZCPLmvxVONykc0FLBVz3XgbpFW9xY3O4iaSrpoYn9Ce0m+Txx0lPYlm5bt6C2F6hp0LaBACsekAZz0oAXCKAel9gj27l8vXNj0eN2J8fxQdsTDtZ6Pnnd73ATfK114ceLDHL2VyV8m1KxD5Cm+zFgB7AfZ0xBsN+KGBtPqha7971lZSUvjKvRNXnPk3xrzwTPGKL8vnJOUidsx+6KzSTPB/sk8L9YsEy9i023KZTQMXTv0IrLp8Bbm3V4wWGsdfmviLMq3x2QMSMXlpE00alCar2eSah0425POSpyEtLFEDj2tURVjP+LmKroc8bOILc= egoebelbecker@zaku
+
+  #jenkins-agent:
+  #  build:
+  #    context: ./
+  #    dockerfile: jenkins-ssh-agent.dockerfile
+  #  container_name: jenkins-agent
+  #  networks:
+  #    - jenkins-network
+  #  restart: always
+
+#  jenkins-agent-ubuntu:
+#    build:
+#      context: ./
+#      dockerfile: jenkins-ssh-agent-ubuntu.dockerfile
+#    container_name: jenkins-agent-ubuntu
+#    hostname: jenkins-agent-ubuntu
+#    networks:
+#      - jenkins-network
+#    restart: always
+#  jenkins-agent-ubuntu-node-app:
+#    build:
+#      context: ./
+#      dockerfile: jenkins-ssh-agent-ubuntu-node-app.dockerfile
+#    container_name: jenkins-agent-ubuntu-node-app
+#    hostname: jenkins-agent-ubuntu-node-app
+#    #    ports:
+#    #  - 8022:22
+#    networks:
+#      - jenkins-network
+#    restart: always
+
+volumes:
+  volume_jenkins: 
+networks:
+  jenkins-network:
+    name: jenkins-net
+    external: true
+#    driver: bridge
